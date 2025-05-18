@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Client;
 use Illuminate\Http\Request;
-
+use App\Exports\OrdersExport;
+use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 class OrderController extends Controller
 {
     public function __construct()
@@ -92,5 +94,25 @@ class OrderController extends Controller
         }
 
         return redirect()->back()->with('success', 'MQTT topics assigned successfully');
+    }
+    public function exportExcel()
+    {
+        return Excel::download(new OrdersExport, 'orders_'.date('Ymd_His').'.xlsx');
+    }
+
+    public function exportPDF()
+    {
+        $orders = Order::with(['client', 'items.product'])
+            ->latest()
+            ->get();
+
+        $pdf = PDF::loadView('admin.orders.export_pdf', compact('orders'))
+                  ->setPaper('a4', 'landscape')
+                  ->setOptions([
+                      'isHtml5ParserEnabled' => true,
+                      'isRemoteEnabled' => true
+                  ]);
+
+        return $pdf->download('orders_'.date('Ymd_His').'.pdf');
     }
 }

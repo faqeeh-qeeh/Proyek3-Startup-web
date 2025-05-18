@@ -28,7 +28,6 @@ class Client extends Authenticatable
         'remember_token',
     ];
     
-    // Tambahkan relasi-relasi berikut
     public function orders()
     {
         return $this->hasMany(Order::class);

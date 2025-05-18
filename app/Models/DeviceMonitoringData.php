@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Models;
+// namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\Model;
 
-class DeviceMonitoringData extends Model
-{
-    use HasFactory;
+// class DeviceMonitoringData extends Model
+// {
+//     use HasFactory;
 
-    protected $fillable = [
-        'device_id',
-        'voltage',
-        'current',
-        'power',
-        'energy',
-        'frequency',
-        'pf'
-    ];
+//     protected $fillable = [
+//         'device_id',
+//         'voltage',
+//         'current',
+//         'power',
+//         'energy',
+//         'frequency',
+//         'pf'
+//     ];
 
-    public function device()
-    {
-        return $this->belongsTo(ClientDevice::class);
-    }
-}
+//     public function device()
+//     {
+//         return $this->belongsTo(ClientDevice::class);
+//     }
+// }

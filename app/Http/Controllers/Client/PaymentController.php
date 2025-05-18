@@ -213,5 +213,55 @@ class PaymentController extends Controller
             return 'error';
         }
     }
-
+    public function retry(Order $order)
+    {
+        if ($order->client_id !== auth('client')->id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+    
+        // Hanya bisa retry jika status unpaid atau failed
+        if (!in_array($order->payment_status, ['unpaid', 'failed'])) {
+            return response()->json(['error' => 'Pembayaran tidak dapat diulang untuk pesanan ini'], 400);
+        }
+    
+        try {
+            // Generate token Midtrans baru
+            $client = auth('client')->user();
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $order->order_number . '-' . time(), // Tambahkan timestamp untuk order_id unik
+                    'gross_amount' => $order->total_amount,
+                ],
+                'customer_details' => [
+                    'first_name' => $client->full_name,
+                    'email' => $client->email,
+                    'phone' => $client->whatsapp_number,
+                ],
+                'enabled_payments' => ['gopay', 'bank_transfer', 'credit_card'],
+                'expiry' => [
+                    'start_time' => date('Y-m-d H:i:s T'),
+                    'unit' => 'hours',
+                    'duration' => 24,
+                ],
+            ];
+        
+            $snapToken = Snap::getSnapToken($params);
+            $order->update([
+                'midtrans_token' => $snapToken,
+                'payment_status' => 'unpaid', // Reset status ke unpaid
+                'order_number' => $params['transaction_details']['order_id'] // Update order number baru
+            ]);
+        
+            return response()->json([
+                'redirect' => route('client.payments.create', $order)
+            ]);
+        
+        } catch (\Exception $e) {
+            \Log::error('Retry payment error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Gagal memproses pembayaran ulang: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    
 }

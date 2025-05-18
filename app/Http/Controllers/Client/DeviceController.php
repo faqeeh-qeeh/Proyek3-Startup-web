@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Services\MqttService;
 use Illuminate\Support\Facades\Auth;
 
+use Carbon\Carbon;
 class DeviceController extends Controller
 {
     public function __construct()
@@ -117,6 +118,61 @@ class DeviceController extends Controller
                 ['channel' => 4, 'status' => 'off']
             ],
             'last_updated' => now()->toDateTimeString()
+        ]);
+    }
+    public function getMonitoringData(ClientDevice $device)
+    {
+        if ($device->client_id !== auth('client')->id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        // Ambil 10 data terbaru untuk chart
+        $monitoringData = DeviceMonitoring::where('device_id', $device->id)
+            ->latest('recorded_at')
+            ->take(10)
+            ->get()
+            ->reverse();
+
+        $labels = [];
+        $voltage = [];
+        $current = [];
+        $power = [];
+        $energy = [];
+        $frequency = [];
+        $powerFactor = [];
+
+        foreach ($monitoringData as $data) {
+            $labels[] = Carbon::parse($data->recorded_at)->format('H:i:s');
+            $voltage[] = $data->voltage;
+            $current[] = $data->current;
+            $power[] = $data->power;
+            $energy[] = $data->energy;
+            $frequency[] = $data->frequency;
+            $powerFactor[] = $data->power_factor;
+        }
+
+        $latestData = $monitoringData->last();
+
+        return response()->json([
+            'success' => true,
+            'chart' => [
+                'labels' => $labels,
+                'voltage' => $voltage,
+                'current' => $current,
+                'power' => $power,
+                'energy' => $energy,
+                'frequency' => $frequency,
+                'power_factor' => $powerFactor
+            ],
+            'latest' => [
+                'voltage' => $latestData->voltage ?? 0,
+                'current' => $latestData->current ?? 0,
+                'power' => $latestData->power ?? 0,
+                'energy' => $latestData->energy ?? 0,
+                'frequency' => $latestData->frequency ?? 0,
+                'power_factor' => $latestData->power_factor ?? 0,
+                'timestamp' => $latestData->recorded_at ?? now()
+            ]
         ]);
     }
 }

@@ -40,9 +40,9 @@ class ClientAuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        Auth::guard('client')->login($client);
+        // Auth::guard('client')->login($client);
 
-        return redirect()->route('client.products.index');
+        return view('auth.client.login')->with('success', 'Registration successful! Please login.');
     }
 
     public function showLoginForm()

@@ -1,12 +1,22 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary border-bottom">
     <div class="container-fluid">
-        <button class="btn btn-primary" id="menu-toggle">
+        <button class="btn btn-sm btn-transparent" id="menu-toggle">
             <i class="fas fa-bars"></i>
         </button>
         
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="d-flex align-items-center ms-auto">
+            <!-- Dark/Light Mode Toggle -->
+            <div class="form-check form-switch me-3">
+                <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                <label class="form-check-label text-white" for="darkModeToggle">
+                    <i class="fas fa-moon"></i>
+                </label>
+            </div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
         
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">

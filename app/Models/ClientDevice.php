@@ -49,10 +49,6 @@ class ClientDevice extends Model
     {
         return $this->hasMany(DeviceMonitoring::class);
     }
-
-    /**
-     * Get the latest monitoring data.
-     */
     public function latestMonitoringData()
     {
         return $this->hasOne(DeviceMonitoring::class)->latestOfMany();

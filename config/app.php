@@ -65,8 +65,10 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
-
+    // 'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta', // Untuk WIB
+    // atau 'Asia/Makassar' untuk WITA
+    // atau 'Asia/Jayapura' untuk WIT
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

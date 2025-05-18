@@ -33,7 +33,8 @@ Route::prefix('admin')->group(function () {
         Route::resource('orders', OrderController::class)->only(['index', 'show']);
         Route::post('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
         Route::post('orders/{order}/assign-mqtt', [OrderController::class, 'assignMqttTopic'])->name('orders.assign-mqtt');
-        
+        Route::get('orders/export/excel', [OrderController::class, 'exportExcel'])->name('orders.export.excel');
+        Route::get('orders/export/pdf', [OrderController::class, 'exportPDF'])->name('orders.export.pdf');
         // Devices
         Route::resource('devices', ClientDeviceController::class)->except(['create', 'store']);
     });
@@ -136,6 +137,8 @@ Route::prefix('client')->group(function () {
             // Manual Payment Confirmation (jika perlu)
             Route::get('/{order}/confirm', [\App\Http\Controllers\Client\PaymentController::class, 'showConfirmForm'])->name('payments.confirm');
             Route::post('/{order}/confirm', [\App\Http\Controllers\Client\PaymentController::class, 'confirmPayment'])->name('payments.confirm.post');
+            Route::post('/{order}/retry', [\App\Http\Controllers\Client\PaymentController::class, 'retry'])->name('payments.retry');
+
         });
         
         // Midtrans Notification (harus bisa diakses tanpa auth)
@@ -156,11 +159,30 @@ Route::prefix('client')->group(function () {
         //     Route::get('/devices/{device}/relay-status', [\App\Http\Controllers\Client\DeviceController::class, 'getRelayStatus']);
 
 
+        // Route::prefix('devices')->name('devices.')->group(function() {
+        //     // Resource routes
+        //     Route::resource('/', \App\Http\Controllers\Client\DeviceController::class)
+        //         ->only(['index', 'show'])
+        //         ->parameters(['' => 'device']); // Ubah parameter menjadi device
+
+        //     // Control routes
+        //     Route::post('/{device}/control', [\App\Http\Controllers\Client\DeviceController::class, 'controlDevice'])
+        //         ->name('control');
+
+        //     // Data routes
+        //     Route::prefix('/{device}')->group(function() {
+        //         Route::get('/monitoring', [\App\Http\Controllers\Client\DeviceController::class, 'getLatestData'])
+        //             ->name('monitoring');
+
+        //         Route::get('/relay-status', [\App\Http\Controllers\Client\DeviceController::class, 'getRelayStatus'])
+        //             ->name('relay-status');
+        //     });
+        // });
         Route::prefix('devices')->name('devices.')->group(function() {
             // Resource routes
             Route::resource('/', \App\Http\Controllers\Client\DeviceController::class)
                 ->only(['index', 'show'])
-                ->parameters(['' => 'device']); // Ubah parameter menjadi device
+                ->parameters(['' => 'device']);
 
             // Control routes
             Route::post('/{device}/control', [\App\Http\Controllers\Client\DeviceController::class, 'controlDevice'])
@@ -168,14 +190,16 @@ Route::prefix('client')->group(function () {
 
             // Data routes
             Route::prefix('/{device}')->group(function() {
+                Route::get('/monitoring-data', [\App\Http\Controllers\Client\DeviceController::class, 'getMonitoringData'])
+                    ->name('monitoring-data');
+            
                 Route::get('/monitoring', [\App\Http\Controllers\Client\DeviceController::class, 'getLatestData'])
                     ->name('monitoring');
-
+            
                 Route::get('/relay-status', [\App\Http\Controllers\Client\DeviceController::class, 'getRelayStatus'])
                     ->name('relay-status');
             });
         });
-
         });
     Route::post('/payments/notification', [\App\Http\Controllers\Client\PaymentController::class, 'handleNotification'])
     ->withoutMiddleware(['web', 'verifyCsrfToken', 'auth:client'])
@@ -219,30 +243,33 @@ Route::prefix('client')->group(function () {
 
 // routes/web.php
 
-use Pusher\Pusher;
+// use Pusher\Pusher;
 
-Route::get('/direct-pusher', function () {
-    $options = [
-        'cluster' => env('PUSHER_APP_CLUSTER'),
-        'useTLS' => true
-    ];
+// Route::get('/direct-pusher', function () {
+//     $options = [
+//         'cluster' => env('PUSHER_APP_CLUSTER'),
+//         'useTLS' => true
+//     ];
 
-    $pusher = new Pusher(
-        env('PUSHER_APP_KEY'),
-        env('PUSHER_APP_SECRET'),
-        env('PUSHER_APP_ID'),
-        $options
-    );
+//     $pusher = new Pusher(
+//         env('PUSHER_APP_KEY'),
+//         env('PUSHER_APP_SECRET'),
+//         env('PUSHER_APP_ID'),
+//         $options
+//     );
 
-    $pusher->trigger('device-data', 'DeviceDataUpdated', [
-        'device_id' => 1,
-        'data' => ['test' => 223]
-    ]);
+//     $pusher->trigger('device-data', 'DeviceDataUpdated', [
+//         'device_id' => 1,
+//         'data' => ['test' => 223]
+//     ]);
 
-    return 'Direct Event sent!';
+//     return 'Direct Event sent!';
+// });
+
+// Route::get('/test-listen', function () {
+//     return view('test-listen');
+// });
+
+Route::get('/test', function () {
+    return view('test-listen'); // dari file test-listen.blade.php yang ada
 });
-
-Route::get('/test-listen', function () {
-    return view('test-listen');
-});
-

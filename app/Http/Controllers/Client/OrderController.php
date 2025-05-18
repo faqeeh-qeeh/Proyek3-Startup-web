@@ -33,32 +33,56 @@ class OrderController extends Controller
         return view('client.orders.create', compact('products'));
     }
 
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'product_id' => 'required|exists:products,id',
+    //         'quantity' => 'required|integer|min:1',
+    //     ]);
+
+    //     $product = Product::findOrFail($request->product_id);
+
+    //     $order = auth('client')->user()->orders()->create([
+    //         'order_number' => 'ORD-' . Str::upper(Str::random(10)),
+    //         'total_amount' => $product->price * $request->quantity,
+    //         'status' => 'pending',
+    //         'payment_status' => 'unpaid',
+    //     ]);
+
+    //     $order->items()->create([
+    //         'product_id' => $product->id,
+    //         'quantity' => $request->quantity,
+    //         'price' => $product->price,
+    //     ]);
+
+    //     return redirect()->route('client.payments.create', $order)
+    //         ->with('success', 'Order created successfully. Please proceed to payment.');
+    // }
     public function store(Request $request)
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
+            // quantity validation dihapus karena sudah fixed 1
         ]);
-
+    
         $product = Product::findOrFail($request->product_id);
-
+    
         $order = auth('client')->user()->orders()->create([
             'order_number' => 'ORD-' . Str::upper(Str::random(10)),
-            'total_amount' => $product->price * $request->quantity,
+            'total_amount' => $product->price, // Langsung harga produk, tidak dikali quantity
             'status' => 'pending',
             'payment_status' => 'unpaid',
         ]);
-
+    
         $order->items()->create([
             'product_id' => $product->id,
-            'quantity' => $request->quantity,
+            'quantity' => 1, // Fixed quantity 1
             'price' => $product->price,
         ]);
-
+    
         return redirect()->route('client.payments.create', $order)
             ->with('success', 'Order created successfully. Please proceed to payment.');
     }
-
     public function show(Order $order)
     {
         if ($order->client_id !== auth('client')->id()) {
