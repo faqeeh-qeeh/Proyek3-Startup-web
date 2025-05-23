@@ -236,9 +236,9 @@ public function detectAnomalies(ClientDevice $device)
         
         return $desc;
     }
-
-    protected function classifyDevice(ClientDevice $device)
-    {
+protected function classifyDevice(ClientDevice $device)
+{
+    try {
         // Ambil data untuk klasifikasi
         $data = DeviceMonitoring::where('device_id', $device->id)
             ->where('recorded_at', '>=', now()->subDays(7))
@@ -246,6 +246,7 @@ public function detectAnomalies(ClientDevice $device)
             ->get();
 
         if ($data->isEmpty()) {
+            \Log::warning('No data available for classification');
             return;
         }
 
@@ -256,14 +257,28 @@ public function detectAnomalies(ClientDevice $device)
 
         $sample = [$avgPower, $maxPower, $usageHours];
 
-        $category = $this->classifierService->classifyDevice($sample);
+        // Dapatkan hasil klasifikasi
+        $result = $this->classifierService->classifyDevice($sample);
 
         // Simpan hasil klasifikasi
         $device->classification()->create([
-            'category' => $category,
-            'confidence' => 0.9 // Nilai dummy, bisa dihitung lebih akurat
+            'category' => $result['category'],
+            'confidence' => $result['confidence']
+        ]);
+
+        \Log::info('Device classified', [
+            'device_id' => $device->id,
+            'category' => $result['category'],
+            'confidence' => $result['confidence']
+        ]);
+
+    } catch (\Exception $e) {
+        \Log::error('Device classification failed', [
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
         ]);
     }
+}
     protected function trainModelForDevice(ClientDevice $device)
     {
         $data = DeviceMonitoring::where('device_id', $device->id)

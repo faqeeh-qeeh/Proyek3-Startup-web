@@ -69,7 +69,6 @@ class DeviceController extends Controller
             return back()->with('error', 'Failed to send command: ' . $e->getMessage());
         }
     }
-// app/Http/Controllers/Client/DeviceController.php
 
     public function getLatestData(ClientDevice $device)
     {
