@@ -198,6 +198,16 @@ Route::prefix('client')->group(function () {
             
                 Route::get('/relay-status', [\App\Http\Controllers\Client\DeviceController::class, 'getRelayStatus'])
                     ->name('relay-status');
+                        Route::post('/detect-anomalies', [\App\Http\Controllers\Client\AnomalyController::class, 'detect'])
+                    ->name('detect-anomalies');
+                        
+                Route::post('/classify', [\App\Http\Controllers\Client\AnomalyController::class, 'classify'])
+                    ->name('classify');
+                        
+                Route::get('/anomalies', [\App\Http\Controllers\Client\AnomalyController::class, 'showAnomalies'])
+                    ->name('anomalies');
+
+                    
             });
         });
         });
@@ -209,6 +219,14 @@ Route::prefix('client')->group(function () {
     //     ->name('orders.check-status');\
     Route::get('/payments/{order}/check-status', [\App\Http\Controllers\Client\PaymentController::class, 'checkStatus'])
     ->name('client.payments.check-status');
+    Route::get('/devices/{device}/anomalies', [\App\Http\Controllers\Client\AnomalyController::class, 'index'])
+         ->name('client.devices.anomalies');
+         
+    Route::post('/devices/{device}/detect-anomalies', [\App\Http\Controllers\Client\AnomalyController::class, 'detectAnomalies'])
+         ->name('client.devices.detect-anomalies');
+         
+    Route::patch('/anomalies/{anomaly}/confirm', [\App\Http\Controllers\Client\AnomalyController::class, 'confirmAnomaly'])
+         ->name('client.devices.confirm-anomaly');
 });
 
 
@@ -272,4 +290,15 @@ Route::prefix('client')->group(function () {
 
 Route::get('/test', function () {
     return view('test-listen'); // dari file test-listen.blade.php yang ada
+});
+
+Route::get('/test-model', function() {
+    $service = new App\Services\AnomalyDetectionService();
+    
+    return response()->json([
+        'model_exists' => file_exists(storage_path('app/models/anomaly_detector.model')),
+        'model_size' => filesize(storage_path('app/models/anomaly_detector.model')),
+        'is_trained' => $service->isModelTrained(),
+        'test_prediction' => $service->testAnomalyDetection([220, 1.5, 330, 50, 0.9])
+    ]);
 });

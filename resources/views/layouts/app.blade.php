@@ -45,10 +45,10 @@
 </head>
 <body class="min-vh-100">
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    {{-- <nav class="navbar navbar-expand-lg bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold text-primary" href="#">
-                {{ config('app.name', 'Startup') }}
+                MCD (Monitoring and Control Device)
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -67,7 +67,7 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> --}}
 
     <!-- Main Content -->
     <main class="container py-5">
@@ -75,11 +75,11 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white py-4 mt-auto">
+    {{-- <footer class="bg-white py-4 mt-auto">
         <div class="container text-center text-muted">
             <p class="mb-0">&copy; {{ date('Y') }} {{ config('app.name', 'Startup Project') }}. All rights reserved.</p>
         </div>
-    </footer>
+    </footer> --}}
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -15,16 +15,18 @@ class Kernel extends HttpKernel
         'web' => [  
             // Middleware web  
         ],  
-        'api' => [  
-            // Middleware api  
-        ],  
+        'api' => [
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
     ];  
 
     protected $middlewareAliases = [  
-        // Middleware aliases  
+        \App\Http\Middleware\CorsMiddleware::class,
     ];  
     protected $commands = [
-        \App\Console\Commands\MqttListenerCommand::class,
+        // \App\Console\Commands\MqttListenerCommand::class,
     ];
     protected function schedule(Schedule $schedule)
     {

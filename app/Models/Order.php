@@ -20,16 +20,6 @@ class Order extends Model
         'notes',
     ];
 
-    // public function client()
-    // {
-    //     return $this->belongsTo(Client::class);
-    // }
-
-    // public function items()
-    // {
-    //     return $this->hasMany(OrderItem::class);
-    // }
-
     public function products()
     {
         return $this->belongsToMany(Product::class, 'order_items')
@@ -37,10 +27,6 @@ class Order extends Model
             ->withTimestamps();
     }
 
-    // public function devices()
-    // {
-    //     return $this->hasMany(ClientDevice::class);
-    // }
     public function client()
     {
         return $this->belongsTo(Client::class);

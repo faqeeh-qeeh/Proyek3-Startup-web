@@ -4,12 +4,13 @@
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-lg-5 col-md-8">
-            <div class="card border-0 shadow-sm rounded-3">
-                <div class="card-header bg-white border-0 py-3">
-                    <h5 class="card-title text-center mb-0 fw-bold">Client Login</h5>
+            <div class="glass-card p-4">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-primary">Client Portal</h2>
+                    <p class="text-muted">Login sebagai client untuk memanfaatkan sistem</p>
                 </div>
 
-                <div class="card-body px-4 py-4">
+                {{-- <div class="card-body px-4 py-4"> --}}
                     <form method="POST" action="{{ route('client.login') }}">
                         @csrf
 
@@ -20,7 +21,7 @@
                                     <i class="bi bi-person text-muted"></i>
                                 </span>
                                 <input id="login" type="text" class="form-control @error('login') is-invalid @enderror" 
-                                       name="login" value="{{ old('login') }}" required autofocus>
+                                       name="login" value="{{ old('login') }}" required autofocus placeholder="masukkan username atau email">
                             </div>
                             @error('login')
                                 <div class="invalid-feedback d-block small">
@@ -36,7 +37,7 @@
                                     <i class="bi bi-lock text-muted"></i>
                                 </span>
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
-                                       name="password" required>
+                                       name="password" required placeholder="masukkan password">
                                 <button class="btn btn-light toggle-password" type="button">
                                     <i class="bi bi-eye"></i>
                                 </button>
@@ -75,7 +76,7 @@
                             </a>
                         </div>
                     </form>
-                </div>
+                {{-- </div> --}}
             </div>
         </div>
     </div>

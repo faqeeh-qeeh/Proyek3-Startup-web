@@ -39,18 +39,48 @@ class ClientDevice extends Model
     {
         return $this->status === 'active';
     }
-    // public function monitoringData()
-    // {
-    //     return $this->hasMany(DeviceMonitoringData::class)
-    //                 ->orderBy('created_at', 'desc')
-    //                 ->limit(30); // Batasi hanya 30 data terakhir disimpan
-    // }
+
     public function monitoringData()
     {
         return $this->hasMany(DeviceMonitoring::class);
     }
+    // public function latestMonitoringData()
+    // {
+    //     return $this->hasOne(DeviceMonitoring::class)->latestOfMany();
+    // }
     public function latestMonitoringData()
     {
-        return $this->hasOne(DeviceMonitoring::class)->latestOfMany();
+        return $this->hasOne(DeviceMonitoring::class, 'device_id')->latestOfMany();
     }
+    public function anomalies()
+    {
+        return $this->hasMany(DeviceAnomaly::class);
+    }
+
+    public function classification()
+    {
+        return $this->hasOne(DeviceClassification::class, 'device_id');
+        // Tambahkan parameter kedua untuk menentukan nama kolom foreign key
+    }
+    // ... bagian yang sudah ada
+
+    // Method untuk memeriksa apakah perangkat industri
+    public function isIndustrial()
+    {
+        return optional($this->classification)->isIndustrial();
+    }
+
+    // Method untuk memeriksa apakah perangkat rumah tangga
+    public function isHousehold()
+    {
+        return optional($this->classification)->isHousehold();
+    }
+
+    // Method untuk mendapatkan kategori perangkat
+    public function getDeviceCategoryAttribute()
+    {
+        return optional($this->classification)->category ?? 'unknown';
+    }
+    
+
 }

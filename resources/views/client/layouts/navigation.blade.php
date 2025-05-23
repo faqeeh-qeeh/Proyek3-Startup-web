@@ -108,34 +108,7 @@
             
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ms-lg-auto">
-                <!-- Notification Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-bell"></i>
-                        <span class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger">
-                            3
-                        </span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-notifications">
-                        <h6 class="dropdown-header">Notifikasi</h6>
-                        <a class="dropdown-item" href="#">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
-                                    <i class="fas fa-bolt text-primary"></i>
-                                </div>
-                                <div>
-                                    <div class="small">Perangkat baru ditambahkan</div>
-                                    <small class="text-muted">2 menit lalu</small>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-center" href="#">Lihat semua notifikasi</a>
-                    </div>
-                </li>
-                
-                <!-- User Dropdown -->
-                                <!-- Add this to the user dropdown section -->
+
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" 
                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

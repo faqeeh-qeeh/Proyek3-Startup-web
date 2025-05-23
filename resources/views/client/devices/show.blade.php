@@ -576,6 +576,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h4 class="mb-0">{{ $device->device_name }}</h4>
                     <small class="opacity-75">{{ $device->product->name }}</small>
                 </div>
+
             </div>
             <span class="badge rounded-pill bg-{{ $device->status === 'active' ? 'success' : 'warning' }} px-3 py-2">
                 {{ ucfirst($device->status) }}
@@ -619,8 +620,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </tr>
                                 </tbody>
                             </table>
+                            <div>
+                                <a href="{{ route('client.devices.anomalies', $device) }}" 
+                                   class="btn btn-sm btn-warning">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    Check Anomalies
+                                </a>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
                 
                 <!-- Relay Control -->
@@ -862,6 +871,34 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fas fa-battery-three-quarters me-2"></i>
+                                    <span>Monitor Frekuensi</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="frequencyChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fas fa-battery-three-quarters me-2"></i>
+                                    <span>Monitor Faktor Daya</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="powerFactorChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -894,8 +931,8 @@ document.addEventListener('DOMContentLoaded', function() {
         voltageChart = initChart('voltageChart', 'Voltage (V)', 'rgba(78, 115, 223, 1)');
         currentChart = initChart('currentChart', 'Current (A)', 'rgba(28, 200, 138, 1)');
         powerChart = initChart('powerChart', 'Power (W)', 'rgba(231, 74, 59, 1)');
-        energyChart = initChart('energyChart', 'Energy (kWh)', 'rgba(246, 194, 62, 1)');
-        frequencyChart = initChart('frequencyChart', 'Frequency (Hz)', 'rgba(54, 162, 235, 1)');
+        energyChart = initChart('energyChart', 'Energy (kWh)', 'rgba(54, 162, 235, 1)');
+        frequencyChart = initChart('frequencyChart', 'Frequency (Hz)', 'rgba(246, 194, 62, 1)');
         powerFactorChart = initChart('powerFactorChart', 'Power Factor', 'rgba(153, 102, 255, 1)', true);
         
         console.log('Charts initialized');

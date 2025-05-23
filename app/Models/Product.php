@@ -17,13 +17,6 @@ class Product extends Model
         'is_active',
     ];
 
-    // public function orders()
-    // {
-    //     return $this->belongsToMany(Order::class, 'order_items')
-    //         ->withPivot('quantity', 'price')
-    //         ->withTimestamps();
-    // }
-
     public function clientDevices()
     {
         return $this->hasMany(ClientDevice::class);

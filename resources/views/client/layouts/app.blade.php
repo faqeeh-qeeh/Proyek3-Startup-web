@@ -110,26 +110,6 @@
                                 <p><strong>Alamat:</strong> {{ Auth::guard('client')->user()->address }}</p>
                             </div>
                         </div>
-                        {{-- <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Statistik Akun</h5>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-4 text-center">
-                                        <h3 class="text-primary">5</h3>
-                                        <p class="text-muted">Perangkat</p>
-                                    </div>
-                                    <div class="col-md-4 text-center">
-                                        <h3 class="text-primary">12</h3>
-                                        <p class="text-muted">Pesanan</p>
-                                    </div>
-                                    <div class="col-md-4 text-center">
-                                        <h3 class="text-primary">3</h3>
-                                        <p class="text-muted">Aktif</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
             </div>

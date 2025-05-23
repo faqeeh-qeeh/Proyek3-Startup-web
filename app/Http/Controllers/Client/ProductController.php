@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 
 
+
 class ProductController extends Controller
 {
     public function __construct()
@@ -51,5 +52,39 @@ class ProductController extends Controller
             'ownedDevices' => $ownedDevices,
             'recommendation' => $recommendation
         ]);
+    }
+
+    // public function apiIndex()
+    // {
+    //     $products = Product::where('is_active', true)
+    //         ->withCount(['clientDevices as available_stock' => function($query) {
+    //             $query->where('status', 'active');
+    //         }])
+    //         ->get();
+        
+    //     return ProductResource::collection($products);
+    // }
+    // ... (di dalam class ProductController)
+
+    public function indexApi()
+    {
+        $products = Product::where('is_active', true)
+            ->withCount(['clientDevices as available_stock' => function($query) {
+                $query->where('status', 'active');
+            }])
+            ->get()
+            ->map(function($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'description' => $product->description,
+                    'price' => $product->price,
+                    'formatted_price' => 'Rp ' . number_format($product->price, 0, ',', '.'),
+                    'image' => $product->image ? asset('storage/' . $product->image) : null,
+                    'available_stock' => $product->available_stock,
+                ];
+            });
+
+        return response()->json($products);
     }
 }

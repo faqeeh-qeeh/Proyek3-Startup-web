@@ -7,21 +7,21 @@
             <div class="glass-card p-4">
                 <div class="text-center mb-4">
                     <h2 class="fw-bold text-primary">Admin Portal</h2>
-                    <p class="text-muted">Sign in to access the dashboard</p>
+                    <p class="text-muted">Login sebagai admin untuk mengelola sistem</p>
                 </div>
 
                 <form method="POST" action="{{ route('admin.login') }}">
                     @csrf
 
                     <div class="mb-3">
-                        <label for="login" class="form-label">Username or Email</label>
+                        <label for="login" class="form-label">Username atau Email</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="bi bi-person-fill"></i>
                             </span>
                             <input id="login" type="text" class="form-control @error('login') is-invalid @enderror" 
                                    name="login" value="{{ old('login') }}" required autocomplete="login" autofocus
-                                   placeholder="Enter your username or email">
+                                   placeholder="masukkan username atau email">
                         </div>
                         @error('login')
                             <div class="invalid-feedback d-block">
@@ -38,7 +38,7 @@
                             </span>
                             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
                                    name="password" required autocomplete="current-password"
-                                   placeholder="Enter your password">
+                                   placeholder="masukkan password">
                             <button class="btn btn-outline-secondary toggle-password" type="button">
                                 <i class="bi bi-eye-fill"></i>
                             </button>
@@ -53,7 +53,7 @@
                     <div class="mb-3 form-check">
                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label class="form-check-label" for="remember">
-                            Remember Me
+                            Ingat saya
                         </label>
                     </div>
 
