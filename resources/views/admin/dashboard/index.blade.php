@@ -3,21 +3,21 @@
 @section('content')
 <div class="container-fluid px-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mt-4">Dashboard Overview</h1>
+        <h1 class="mt-4">Dashboard Admin</h1>
         <div class="d-flex">
             <button class="btn btn-sm btn-outline-secondary me-2" id="refresh-btn">
-                <i class="fas fa-sync-alt me-1"></i> Refresh
+                <i class="fas fa-sync-alt me-1"></i> Segarkan
             </button>
             <div class="dropdown">
                 <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="timeRangeDropdown" data-bs-toggle="dropdown">
-                    <i class="fas fa-calendar-alt me-1"></i> Last 7 Days
+                    <i class="fas fa-calendar-alt me-1"></i> 7 Hari Terakhir
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item time-range" href="#" data-range="7">Last 7 Days</a></li>
-                    <li><a class="dropdown-item time-range" href="#" data-range="30">Last 30 Days</a></li>
-                    <li><a class="dropdown-item time-range" href="#" data-range="90">Last 90 Days</a></li>
+                    <li><a class="dropdown-item time-range" href="#" data-range="7">7 Hari Terakhir</a></li>
+                    <li><a class="dropdown-item time-range" href="#" data-range="30">30 Hari Terakhir</a></li>
+                    <li><a class="dropdown-item time-range" href="#" data-range="90">90 Hari Terakhir</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item time-range" href="#" data-range="0">All Time</a></li>
+                    <li><a class="dropdown-item time-range" href="#" data-range="0">Semua Data</a></li>
                 </ul>
             </div>
         </div>
@@ -25,19 +25,18 @@
 
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item active">Overview</li>
+        <li class="breadcrumb-item active">Ringkasan</li>
     </ol>
     
-    <!-- Stats Cards -->
+    <!-- Statistik Utama -->
     <div class="row g-4 mb-4">
         <div class="col-xl-3 col-md-6">
             <div class="card card-hover border-start border-4 border-primary">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="text-muted mb-2">Total Products</h6>
+                            <h6 class="text-muted mb-2">Total Produk</h6>
                             <h2 class="mb-0">{{ $totalProducts }}</h2>
-                            <small class="text-success"><i class="fas fa-arrow-up me-1"></i> 5.2% from last month</small>
                         </div>
                         <div class="bg-primary bg-opacity-10 p-3 rounded">
                             <i class="fas fa-boxes text-primary fa-2x"></i>
@@ -46,7 +45,7 @@
                 </div>
                 <div class="card-footer bg-transparent">
                     <a href="{{ route('admin.products.index') }}" class="text-decoration-none d-flex align-items-center justify-content-between">
-                        <span>View all products</span>
+                        <span>Lihat semua produk</span>
                         <i class="fas fa-chevron-right"></i>
                     </a>
                 </div>
@@ -58,9 +57,8 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="text-muted mb-2">Total Orders</h6>
+                            <h6 class="text-muted mb-2">Total Pesanan</h6>
                             <h2 class="mb-0">{{ $totalOrders }}</h2>
-                            <small class="text-success"><i class="fas fa-arrow-up me-1"></i> 12.7% from last month</small>
                         </div>
                         <div class="bg-success bg-opacity-10 p-3 rounded">
                             <i class="fas fa-shopping-cart text-success fa-2x"></i>
@@ -69,7 +67,7 @@
                 </div>
                 <div class="card-footer bg-transparent">
                     <a href="{{ route('admin.orders.index') }}" class="text-decoration-none d-flex align-items-center justify-content-between">
-                        <span>View all orders</span>
+                        <span>Lihat semua pesanan</span>
                         <i class="fas fa-chevron-right"></i>
                     </a>
                 </div>
@@ -81,9 +79,8 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="text-muted mb-2">Pending Orders</h6>
+                            <h6 class="text-muted mb-2">Pesanan Tertunda</h6>
                             <h2 class="mb-0">{{ $pendingOrders }}</h2>
-                            <small class="text-danger"><i class="fas fa-arrow-down me-1"></i> 3.5% from last month</small>
                         </div>
                         <div class="bg-warning bg-opacity-10 p-3 rounded">
                             <i class="fas fa-clock text-warning fa-2x"></i>
@@ -92,7 +89,7 @@
                 </div>
                 <div class="card-footer bg-transparent">
                     <a href="{{ route('admin.orders.index') }}?status=pending" class="text-decoration-none d-flex align-items-center justify-content-between">
-                        <span>View pending orders</span>
+                        <span>Lihat pesanan tertunda</span>
                         <i class="fas fa-chevron-right"></i>
                     </a>
                 </div>
@@ -104,9 +101,8 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="text-muted mb-2">Active Devices</h6>
+                            <h6 class="text-muted mb-2">Perangkat Aktif</h6>
                             <h2 class="mb-0">{{ $activeDevices }}</h2>
-                            <small class="text-success"><i class="fas fa-arrow-up me-1"></i> 8.1% from last month</small>
                         </div>
                         <div class="bg-info bg-opacity-10 p-3 rounded">
                             <i class="fas fa-microchip text-info fa-2x"></i>
@@ -115,7 +111,7 @@
                 </div>
                 <div class="card-footer bg-transparent">
                     <a href="{{ route('admin.devices.index') }}" class="text-decoration-none d-flex align-items-center justify-content-between">
-                        <span>View all devices</span>
+                        <span>Lihat semua perangkat</span>
                         <i class="fas fa-chevron-right"></i>
                     </a>
                 </div>
@@ -123,24 +119,24 @@
         </div>
     </div>
     
-    <!-- Charts and Data Section -->
+    <!-- Grafik dan Data -->
     <div class="row g-4 mb-4">
-        <!-- Orders Chart -->
+        <!-- Grafik Pesanan -->
         <div class="col-xl-8">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
                         <i class="fas fa-chart-line me-1"></i>
-                        Order Trends
+                        Tren Pesanan
                     </div>
                     <div class="dropdown">
                         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="chartDropdown" data-bs-toggle="dropdown">
                             <i class="fas fa-filter me-1"></i> Filter
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item chart-filter" href="#" data-filter="daily">Daily</a></li>
-                            <li><a class="dropdown-item chart-filter" href="#" data-filter="weekly">Weekly</a></li>
-                            <li><a class="dropdown-item chart-filter" href="#" data-filter="monthly">Monthly</a></li>
+                            <li><a class="dropdown-item chart-filter" href="#" data-filter="daily">Harian</a></li>
+                            <li><a class="dropdown-item chart-filter" href="#" data-filter="weekly">Mingguan</a></li>
+                            <li><a class="dropdown-item chart-filter" href="#" data-filter="monthly">Bulanan</a></li>
                         </ul>
                     </div>
                 </div>
@@ -152,12 +148,12 @@
             </div>
         </div>
         
-        <!-- Status Distribution -->
+        <!-- Distribusi Status -->
         <div class="col-xl-4">
             <div class="card h-100">
                 <div class="card-header">
                     <i class="fas fa-chart-pie me-1"></i>
-                    Order Status Distribution
+                    Distribusi Status Pesanan
                 </div>
                 <div class="card-body d-flex flex-column">
                     <div class="chart-container" style="position: relative; height: 250px;">
@@ -166,16 +162,16 @@
                     <div class="mt-auto pt-3">
                         <div class="row text-center">
                             <div class="col-4">
-                                <span class="d-block text-success"><i class="fas fa-circle"></i> Completed</span>
-                                <span class="fw-bold">65%</span>
+                                <span class="d-block text-success"><i class="fas fa-circle"></i> Selesai</span>
+                                <span class="fw-bold">{{ $orderStatusDistribution['completed'] }}%</span>
                             </div>
                             <div class="col-4">
-                                <span class="d-block text-warning"><i class="fas fa-circle"></i> Pending</span>
-                                <span class="fw-bold">25%</span>
+                                <span class="d-block text-warning"><i class="fas fa-circle"></i> Tertunda</span>
+                                <span class="fw-bold">{{ $orderStatusDistribution['pending'] }}%</span>
                             </div>
                             <div class="col-4">
-                                <span class="d-block text-danger"><i class="fas fa-circle"></i> Cancelled</span>
-                                <span class="fw-bold">10%</span>
+                                <span class="d-block text-danger"><i class="fas fa-circle"></i> Dibatalkan</span>
+                                <span class="fw-bold">{{ $orderStatusDistribution['cancelled'] }}%</span>
                             </div>
                         </div>
                     </div>
@@ -184,26 +180,26 @@
         </div>
     </div>
     
-    <!-- Recent Data Section -->
+    <!-- Data Terbaru -->
     <div class="row g-4">
-        <!-- Recent Orders -->
+        <!-- Pesanan Terbaru -->
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
                         <i class="fas fa-shopping-cart me-1"></i>
-                        Recent Orders
+                        Pesanan Terbaru
                     </div>
-                    <a href="{{ route('admin.orders.index') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                    <a href="{{ route('admin.orders.index') }}" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover table-borderless">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Order #</th>
-                                    <th>Client</th>
-                                    <th>Amount</th>
+                                    <th>No. Pesanan</th>
+                                    <th>Klien</th>
+                                    <th>Jumlah</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -221,7 +217,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4" class="text-center py-4">No recent orders found</td>
+                                    <td colspan="4" class="text-center py-4">Tidak ada pesanan terbaru</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -231,25 +227,25 @@
             </div>
         </div>
         
-        <!-- Active Devices -->
+        <!-- Perangkat Aktif -->
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
                         <i class="fas fa-microchip me-1"></i>
-                        Active Devices
+                        Perangkat Aktif
                     </div>
-                    <a href="{{ route('admin.devices.index') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                    <a href="{{ route('admin.devices.index') }}" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover table-borderless">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Device</th>
-                                    <th>Client</th>
+                                    <th>Perangkat</th>
+                                    <th>Klien</th>
                                     <th>Status</th>
-                                    <th>Last Active</th>
+                                    <th>Terakhir Aktif</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -262,11 +258,11 @@
                                             {{ ucfirst($device->status) }}
                                         </span>
                                     </td>
-                                    <td>{{ $device->last_active_at ? $device->last_active_at->diffForHumans() : 'Never' }}</td>
+                                    <td>{{ $device->last_active_at ? $device->last_active_at->diffForHumans() : 'Tidak pernah' }}</td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4" class="text-center py-4">No active devices found</td>
+                                    <td colspan="4" class="text-center py-4">Tidak ada perangkat aktif</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -279,166 +275,26 @@
 </div>
 @endsection
 
-@push('styles')
-<style>
-    /* Animasi yang sudah ada */
-    .card-hover:hover {
-        transform: translateY(-5px);
-        transition: transform 0.3s ease;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-    
-    .border-start {
-        border-left-width: 4px !important;
-    }
-    
-    .table-borderless td, .table-borderless th {
-        border: none;
-    }
-
-    /* Animasi baru */
-    .animate-fade-in {
-        animation: fadeIn 0.5s ease-out forwards;
-        opacity: 0;
-    }
-
-    .animate-slide-up {
-        animation: slideUp 0.6s ease-out forwards;
-        opacity: 0;
-    }
-
-    .animate-delay-1 {
-        animation-delay: 0.1s;
-    }
-
-    .animate-delay-2 {
-        animation-delay: 0.2s;
-    }
-
-    .animate-delay-3 {
-        animation-delay: 0.3s;
-    }
-
-    .animate-delay-4 {
-        animation-delay: 0.4s;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Animasi untuk elemen yang keluar */
-    .page-exit-active {
-        transition: all 0.3s ease-out;
-        opacity: 0;
-        transform: translateY(20px);
-    }
-</style>
-@endpush
-
 @push('scripts')
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Tambahkan class animasi ke elemen-elemen
-        function addAnimationClasses() {
-            // Header
-            document.querySelector('h1').classList.add('animate-slide-up');
-            document.querySelector('.d-flex.justify-content-between.align-items-center.mb-4')
-                .classList.add('animate-slide-up', 'animate-delay-1');
-            
-            // Breadcrumb
-            document.querySelector('.breadcrumb').classList.add('animate-fade-in', 'animate-delay-1');
-            
-            // Stats Cards
-            const statsCards = document.querySelectorAll('.row.g-4.mb-4 .col-xl-3');
-            statsCards.forEach((card, index) => {
-                card.classList.add('animate-slide-up', `animate-delay-${index + 1}`);
-            });
-            
-            // Charts
-            document.querySelector('.col-xl-8 .card').classList.add('animate-fade-in', 'animate-delay-2');
-            document.querySelector('.col-xl-4 .card').classList.add('animate-fade-in', 'animate-delay-3');
-            
-            // Tables
-            document.querySelectorAll('.col-xl-6 .card').forEach((card, index) => {
-                card.classList.add('animate-fade-in', `animate-delay-${index + 3}`);
-            });
-        }
-        
-        // Panggil fungsi untuk menambahkan animasi
-        addAnimationClasses();
-        
-        // Fungsi untuk animasi keluar saat pindah halaman
-        function setupPageTransitions() {
-            const links = document.querySelectorAll('a:not([href^="#"]):not([target="_blank"]):not([data-bs-toggle])');
-            
-            links.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // Skip untuk dropdown dan filter
-                    if (this.classList.contains('dropdown-item') || 
-                        this.classList.contains('time-range') || 
-                        this.classList.contains('chart-filter')) {
-                        return;
-                    }
-                    
-                    e.preventDefault();
-                    const href = this.getAttribute('href');
-                    
-                    // Tambahkan animasi keluar ke container utama
-                    const container = document.querySelector('.container-fluid.px-4');
-                    container.classList.add('page-exit-active');
-                    
-                    // Redirect setelah animasi selesai
-                    setTimeout(() => {
-                        window.location.href = href;
-                    }, 300);
-                });
-            });
-        }
-        
-        // Panggil fungsi untuk setup animasi keluar
-        setupPageTransitions();
-        
-        // Kode chart dan lainnya yang sudah ada...
+        // Grafik Tren Pesanan
         const ordersCtx = document.getElementById('ordersChart').getContext('2d');
-        const statusCtx = document.getElementById('statusChart').getContext('2d');
-        
-        // Order Trends Chart
         const ordersChart = new Chart(ordersCtx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                labels: @json($orderTrends['labels']),
                 datasets: [{
-                    label: 'Completed Orders',
-                    data: [12, 19, 15, 22, 18, 25, 30],
+                    label: 'Pesanan Selesai',
+                    data: @json($orderTrends['completed']),
                     borderColor: '#10b981',
                     backgroundColor: 'rgba(16, 185, 129, 0.1)',
                     tension: 0.3,
                     fill: true
                 }, {
-                    label: 'Pending Orders',
-                    data: [5, 8, 7, 10, 12, 8, 15],
+                    label: 'Pesanan Tertunda',
+                    data: @json($orderTrends['pending']),
                     borderColor: '#f59e0b',
                     backgroundColor: 'rgba(245, 158, 11, 0.1)',
                     tension: 0.3,
@@ -459,19 +315,27 @@
                 },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
                     }
                 }
             }
         });
         
-        // Status Distribution Chart
+        // Grafik Distribusi Status
+        const statusCtx = document.getElementById('statusChart').getContext('2d');
         const statusChart = new Chart(statusCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Completed', 'Pending', 'Cancelled'],
+                labels: ['Selesai', 'Tertunda', 'Dibatalkan'],
                 datasets: [{
-                    data: [65, 25, 10],
+                    data: [
+                        {{ $orderStatusDistribution['completed'] }},
+                        {{ $orderStatusDistribution['pending'] }},
+                        {{ $orderStatusDistribution['cancelled'] }}
+                    ],
                     backgroundColor: [
                         '#10b981',
                         '#f59e0b',
@@ -491,8 +355,19 @@
                 }
             }
         });
-        
-        // Time range filter
+
+        // Fungsi untuk refresh data
+        document.getElementById('refresh-btn').addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            icon.classList.add('fa-spin');
+            
+            // Simulasikan loading data
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
+
+        // Filter rentang waktu
         document.querySelectorAll('.time-range').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -500,20 +375,12 @@
                 document.getElementById('timeRangeDropdown').innerHTML = 
                     `<i class="fas fa-calendar-alt me-1"></i> ${this.textContent}`;
                 
-                // Animasi perubahan
-                const dropdown = document.getElementById('timeRangeDropdown');
-                dropdown.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    dropdown.style.transform = 'scale(1)';
-                    dropdown.style.transition = 'transform 0.3s ease';
-                }, 100);
-                
-                // Here you would typically make an AJAX call to update data
-                console.log(`Time range changed to: ${range} days`);
+                // Di sini Anda bisa menambahkan AJAX untuk memuat data berdasarkan range
+                console.log(`Memfilter data untuk ${range} hari terakhir`);
             });
         });
-        
-        // Chart filter
+
+        // Filter grafik
         document.querySelectorAll('.chart-filter').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -521,43 +388,9 @@
                 document.getElementById('chartDropdown').innerHTML = 
                     `<i class="fas fa-filter me-1"></i> ${this.textContent}`;
                 
-                // Animasi perubahan
-                const dropdown = document.getElementById('chartDropdown');
-                dropdown.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    dropdown.style.transform = 'scale(1)';
-                    dropdown.style.transition = 'transform 0.3s ease';
-                }, 100);
-                
-                // Here you would typically update the chart data
-                console.log(`Chart filter changed to: ${filter}`);
+                // Di sini Anda bisa menambahkan logika untuk mengubah tampilan grafik
+                console.log(`Mengubah tampilan grafik ke ${filter}`);
             });
-        });
-        
-        // Refresh button dengan animasi lebih smooth
-        document.getElementById('refresh-btn').addEventListener('click', function() {
-            // Add rotation animation
-            const icon = this.querySelector('i');
-            icon.style.transform = 'rotate(360deg)';
-            icon.style.transition = 'transform 0.5s ease';
-            
-            // Animasi pada card stats
-            const statsCards = document.querySelectorAll('.row.g-4.mb-4 .col-xl-3 .card');
-            statsCards.forEach(card => {
-                card.style.transform = 'translateY(-5px)';
-                setTimeout(() => {
-                    card.style.transform = 'translateY(0)';
-                    card.style.transition = 'transform 0.3s ease';
-                }, 300);
-            });
-            
-            // Here you would typically refresh the data
-            console.log('Refreshing dashboard data...');
-            
-            // Reset rotation after animation completes
-            setTimeout(() => {
-                icon.style.transform = 'rotate(0deg)';
-            }, 500);
         });
     });
 </script>

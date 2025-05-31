@@ -33,7 +33,7 @@
         @include('client.layouts.navigation')
         
         <main class="py-4">
-            <div class="container-fluid px-4">
+            {{-- <div class="container-fluid px-4">
                 <!-- Notifikasi -->
                 @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show d-flex align-items-center">
@@ -53,7 +53,39 @@
                 
                 <!-- Content -->
                 @yield('content')
+            </div> --}}
+        <!-- Toast Container (Fixed Position) -->
+            <div aria-live="polite" aria-atomic="true" class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
+                <!-- Success Toast -->
+                @if(session('success'))
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-success text-white">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <strong class="me-auto">Sukses</strong>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        {{ session('success') }}
+                    </div>
+                </div>
+                @endif
+
+                <!-- Error Toast -->
+                @if(session('error'))
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-danger text-white">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <strong class="me-auto">Error</strong>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        {{ session('error') }}
+                    </div>
+                </div>
+                @endif
+                
             </div>
+            @yield('content')
         </main>
         
         <!-- Footer -->
@@ -115,7 +147,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary">Edit Profil</button>
+                {{-- <button type="button" class="btn btn-primary">Edit Profil</button> --}}
             </div>
         </div>
     </div>

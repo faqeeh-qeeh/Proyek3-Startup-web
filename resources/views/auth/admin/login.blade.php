@@ -50,12 +50,12 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3 form-check">
+                    {{-- <div class="mb-3 form-check">
                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label class="form-check-label" for="remember">
                             Ingat saya
                         </label>
-                    </div>
+                    </div> --}}
 
                     <div class="d-grid gap-2 mb-3">
                         <button type="submit" class="btn btn-primary btn-lg rounded-pill">

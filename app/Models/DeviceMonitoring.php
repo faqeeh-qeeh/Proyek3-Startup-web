@@ -35,11 +35,6 @@ class DeviceMonitoring extends Model
     {
         return $this->hasOne(DeviceAnomaly::class, 'monitoring_id');
     }
-    // ... bagian yang sudah ada
-
-
-
-    // Scope untuk data yang memiliki anomali
     public function scopeWithAnomalies($query)
     {
         return $query->whereHas('anomaly');

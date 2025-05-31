@@ -68,7 +68,7 @@
     <div class="container-fluid px-4">
         <a class="navbar-brand d-flex align-items-center" href="{{ route('client.products.index') }}">
             <i class="fas fa-bolt me-2"></i>
-            <span class="fw-bold">{{ config('app.name', 'Laravel') }}</span>
+            <span class="fw-bold">Mocid</span>
         </a>
         
         <div class="d-flex align-items-center order-lg-3 ms-auto">

@@ -16,9 +16,14 @@ $(document).ready(function() {
     $('[data-bs-toggle="tooltip"]').tooltip();
     
     // Auto-dismiss alerts after 5 seconds
-    setTimeout(function() {
-        $('.alert').alert('close');
-    }, 5000);
+    $('.alert').each(function() {
+        var duration = $(this).hasClass('quality-alert') ? 10000 : 5000; // 10 detik untuk quality, 5 detik untuk lainnya
+        var alert = $(this);
+        
+        setTimeout(function() {
+            alert.alert('close');
+        }, duration);
+    });
     
     // Theme Toggle Functionality
     const themeToggle = document.getElementById('themeToggle');
@@ -84,4 +89,15 @@ $(document).ready(function() {
     });
     
     // Initialize any other custom JS components here
+});
+// Auto-hide toasts after 5 seconds
+$(document).ready(function() {
+    $('.toast').each(function() {
+        const toast = new bootstrap.Toast(this);
+        toast.show();
+        
+        setTimeout(() => {
+            toast.hide();
+        }, 5000);
+    });
 });

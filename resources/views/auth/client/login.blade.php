@@ -50,15 +50,15 @@
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="form-check">
+                            {{-- <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                 <label class="form-check-label small" for="remember">
                                     Remember Me
                                 </label>
-                            </div>
+                            </div> --}}
                             @if (Route::has('client.password.request'))
                                 <a href="{{ route('client.password.request') }}" class="small text-decoration-none">
-                                    Forgot Password?
+                                    Lupa Password?
                                 </a>
                             @endif
                         </div>
@@ -70,9 +70,9 @@
                         </div>
 
                         <div class="text-center small pt-2">
-                            Don't have an account? 
+                            Belum memiliki akun? 
                             <a href="{{ route('client.register') }}" class="text-decoration-none fw-semibold">
-                                Register
+                                Daftar disini
                             </a>
                         </div>
                     </form>

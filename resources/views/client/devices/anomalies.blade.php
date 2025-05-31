@@ -29,7 +29,7 @@
         </div>
         
         <div class="card-body">
-            @if (session('success'))
+            {{-- @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="fas fa-check-circle me-2"></i>
                     {{ session('success') }}
@@ -43,7 +43,85 @@
                     {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            @endif
+            @endif --}}
+            @if (session('quality'))
+            <div class="alert quality-alert
+                @if(str_contains(session('quality'), 'sangat bagus')) alert-success
+                @elseif(str_contains(session('quality'), 'cukup bagus')) alert-info
+                @elseif(str_contains(session('quality'), 'sedang')) alert-warning
+                @else alert-danger
+                @endif
+                alert-dismissible fade show" role="alert">
+                <i class="fas 
+                    @if(str_contains(session('quality'), 'sangat bagus')) fa-check-circle
+                    @elseif(str_contains(session('quality'), 'cukup bagus')) fa-info-circle
+                    @elseif(str_contains(session('quality'), 'sedang')) fa-exclamation-circle
+                    @else fa-times-circle
+                    @endif
+                    me-2"></i>
+                {{ session('quality') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                @if(session('quality_data'))
+                    <hr>
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <small class="d-block"><i class="fas fa-check text-success me-1"></i> Normal: {{ session('quality_data.stats.good') }}</small>
+                        </div>
+                        <div class="col-md-4">
+                            <small class="d-block"><i class="fas fa-exclamation-triangle text-warning me-1"></i> Sedang: {{ session('quality_data.stats.fair') }}</small>
+                        </div>
+                        <div class="col-md-4">
+                            <small class="d-block"><i class="fas fa-times text-danger me-1"></i> Buruk: {{ session('quality_data.stats.poor') }}</small>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        @endif
+        {{-- @if (session('recent_quality'))
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <i class="fas fa-bolt me-2"></i> Kondisi Real-time (5 Menit Terakhir)
+    </div>
+    <div class="card-body">
+        <div class="alert 
+            @if(str_contains(session('recent_quality'), 'sangat bagus')) alert-success
+            @elseif(str_contains(session('recent_quality'), 'cukup bagus')) alert-info
+            @elseif(str_contains(session('recent_quality'), 'sedang')) alert-warning
+            @else alert-danger
+            @endif">
+            {{ session('recent_quality') }}
+        </div>
+        
+        @if(session('recent_quality_data'))
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="recentChart" height="150"></canvas>
+            </div>
+            <div class="col-md-6">
+                <div class="progress mb-2" style="height: 30px;">
+                    <div class="progress-bar bg-success" 
+                         style="width: {{ session('recent_quality_data.stats.good') / array_sum(session('recent_quality_data.stats')) * 100 }}%">
+                        Normal
+                    </div>
+                    <div class="progress-bar bg-warning" 
+                         style="width: {{ session('recent_quality_data.stats.fair') / array_sum(session('recent_quality_data.stats')) * 100 }}%">
+                        Sedang
+                    </div>
+                    <div class="progress-bar bg-danger" 
+                         style="width: {{ session('recent_quality_data.stats.poor') / array_sum(session('recent_quality_data.stats')) * 100 }}%">
+                        Buruk
+                    </div>
+                </div>
+                <small class="text-muted">
+                    Update terakhir: {{ now()->format('H:i:s') }}
+                </small>
+            </div>
+        </div>
+        @endif
+    </div>
+</div>
+@endif --}}
             
             <!-- Device Classification Card -->
             <div class="card mb-4">
@@ -220,3 +298,24 @@
     }
 </style>
 @endpush
+
+{{-- @push('scripts')
+<script>
+// Di bagian @push('scripts')
+setInterval(function() {
+    fetch(`/client/devices/{{ $device->id }}/recent-data`)
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                // Update progress bar
+                document.querySelector('#recentProgress .bg-success').style.width = data.quality.good + '%';
+                document.querySelector('#recentProgress .bg-warning').style.width = data.quality.fair + '%';
+                document.querySelector('#recentProgress .bg-danger').style.width = data.quality.poor + '%';
+                
+                // Update timestamp
+                document.querySelector('#lastUpdate').textContent = 'Update: ' + new Date().toLocaleTimeString();
+            }
+        });
+}, 30000); // Update setiap 30 detik
+</script>
+@endpush --}}

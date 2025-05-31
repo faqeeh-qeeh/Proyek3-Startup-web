@@ -34,9 +34,9 @@
             <div class="col-lg-4 mb-4 mb-lg-0">
                 <div class="footer-logo d-flex align-items-center mb-3">
                     <i class="fas fa-bolt text-primary me-2 fs-4"></i>
-                    <span class="fw-bold fs-4">{{ config('app.name', 'Laravel') }}</span>
+                    <span class="fw-bold fs-4">Mocid</span>
                 </div>
-                <p class="text-muted">Sistem IoT Monitoring dan Kendali Listrik berbasis ESP32 dan PZEM-004T yang modern dan efisien.</p>
+                <p class="text-muted">Sistem IoT Monitoring dan Kendali berbasis ESP32 dan Sensor yang modern dan efisien.</p>
                 <div class="social-icons mt-4">
                     <a href="#" class="text-decoration-none me-3">
                         <i class="fab fa-facebook-f"></i>
@@ -75,7 +75,7 @@
                 <ul class="list-unstyled text-muted">
                     <li class="mb-3 d-flex">
                         <i class="fas fa-map-marker-alt text-primary mt-1 me-2"></i>
-                        <span>Jl. Teknologi No. 123, Jakarta, Indonesia</span>
+                        <span>Jl. Raya Lohbener Lama No.08, Legok, Kec. Lohbener, Kabupaten Indramayu, Jawa Barat 45252</span>
                     </li>
                     <li class="mb-3 d-flex">
                         <i class="fas fa-envelope text-primary mt-1 me-2"></i>
@@ -83,7 +83,7 @@
                     </li>
                     <li class="d-flex">
                         <i class="fas fa-phone-alt text-primary mt-1 me-2"></i>
-                        <span>+62 123 4567 890</span>
+                        <span>+62 896 6398 3455</span>
                     </li>
                 </ul>
             </div>
@@ -91,7 +91,7 @@
         <hr class="my-4">
         <div class="row align-items-center">
             <div class="col-md-6 text-center text-md-start">
-                <p class="mb-0 text-muted">&copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. All rights reserved.</p>
+                <p class="mb-0 text-muted">&copy; {{ date('Y') }} Mocid. All rights reserved.</p>
             </div>
             <div class="col-md-6 text-center text-md-end">
                 <ul class="list-inline mb-0">

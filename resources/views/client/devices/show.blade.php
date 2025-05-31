@@ -656,10 +656,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="col-md-6">
                                         <label class="form-label d-block">Aksi</label>
                                         <div class="btn-group" role="group">
-                                            <input type="radio" class="btn-check" name="command" id="command-on" value="on" autocomplete="off" checked>
+                                            <input type="radio" class="btn-check" name="command" id="command-on" value="off" autocomplete="off" checked>
                                             <label class="btn btn-outline-success" for="command-on"><i class="fas fa-power-off me-1"></i> ON</label>
                                             
-                                            <input type="radio" class="btn-check" name="command" id="command-off" value="off" autocomplete="off">
+                                            <input type="radio" class="btn-check" name="command" id="command-off" value="on" autocomplete="off">
                                             <label class="btn btn-outline-danger" for="command-off"><i class="fas fa-power-off me-1"></i> OFF</label>
                                         </div>
                                     </div>

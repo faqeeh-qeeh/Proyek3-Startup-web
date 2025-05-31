@@ -91,6 +91,10 @@ use App\Http\Controllers\Client\ProductApiController;
 use App\Http\Controllers\Client\OrderApiController;
 use App\Http\Controllers\Client\PaymentApiController;
 use App\Http\Controllers\Client\DeviceApiController;
+
+Route::get('/client/devices/{device}/recent-data', [AnomalyController::class, 'getRecentData'])
+    ->middleware('auth:client');
+
 Route::prefix('client')->group(function () {
     Route::post('/register', [ClientAuthApiController::class, 'register']);
     Route::post('/login', [ClientAuthApiController::class, 'login']);

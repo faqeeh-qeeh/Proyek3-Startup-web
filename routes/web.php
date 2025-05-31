@@ -37,6 +37,12 @@ Route::prefix('admin')->group(function () {
         Route::get('orders/export/pdf', [OrderController::class, 'exportPDF'])->name('orders.export.pdf');
         // Devices
         Route::resource('devices', ClientDeviceController::class)->except(['create', 'store']);
+        // Route::get('/clients', [\App\Http\Controllers\Admin\ClientController::class, 'index'])->name('clients.index');
+        // Route::get('/clients/{client}', [\App\Http\Controllers\Admin\ClientController::class, 'show'])->name('clients.show');
+        // Route::put('/clients/{client}', [\App\Http\Controllers\Admin\ClientController::class, 'update'])->name('clients.update');
+        // Route::get('/clients/export/excel', [\App\Http\Controllers\Admin\ClientController::class, 'exportExcel'])->name('clients.export.excel');
+        // Route::get('/clients/export/pdf', [\App\Http\Controllers\Admin\ClientController::class, 'exportPdf'])->name('clients.export.pdf');
+        Route::resource('clients', \App\Http\Controllers\Admin\ClientController::class)->only(['index', 'show']);
     });
 });
 
