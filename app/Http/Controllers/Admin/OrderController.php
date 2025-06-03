@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Exports\OrdersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
+
 class OrderController extends Controller
 {
     public function __construct()
@@ -51,7 +52,6 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Order status updated successfully.');
     }
 
-// Di method assignMqttTopic
     public function assignMqttTopic(Request $request, Order $order)
     {
         $request->validate([
@@ -99,7 +99,6 @@ class OrderController extends Controller
     {
         return Excel::download(new OrdersExport, 'orders_'.date('Ymd_His').'.xlsx');
     }
-
     public function exportPDF()
     {
         $orders = Order::with(['client', 'items.product'])

@@ -576,7 +576,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h4 class="mb-0">{{ $device->device_name }}</h4>
                     <small class="opacity-75">{{ $device->product->name }}</small>
                 </div>
-
+                    <a href="{{ route('client.devices.export-monitoring', $device) }}" 
+                       class="btn btn-sm btn-success" 
+                       title="Export Monitoring Data">
+                        <i class="fas fa-file-excel me-1"></i> Export
+                    </a>
             </div>
             <span class="badge rounded-pill bg-{{ $device->status === 'active' ? 'success' : 'warning' }} px-3 py-2">
                 {{ ucfirst($device->status) }}

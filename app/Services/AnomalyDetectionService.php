@@ -20,8 +20,6 @@ class AnomalyDetectionService
     public function __construct()
     {
         $this->modelPath = storage_path('app/models/anomaly_detector.model');
-        
-        // Inisialisasi serializer di constructor
         $this->serializer = new RBX();
         
         try {
@@ -45,58 +43,57 @@ class AnomalyDetectionService
         Log::info('New IsolationForest model created');
     }
 
-// Di dalam class AnomalyDetectionService
-public function isModelTrained(): bool
-{
-    return $this->model->trained();
-}
-public function testAnomalyDetection(array $sample): array
-{
-    if (!$this->isModelTrained()) {
-        throw new \Exception("Model belum dilatih");
+    public function isModelTrained(): bool
+    {
+        return $this->model->trained();
     }
-    
-    $dataset = new Unlabeled([$sample]);
-    return [
-        'prediction' => $this->model->predict($dataset),
-        'score' => $this->model->score($dataset)
-    ];
-}
-
-
-protected function loadModel()
-{
-    try {
-        // Baca file dengan lock untuk hindari race condition
-        $file = fopen($this->modelPath, 'r');
-        flock($file, LOCK_SH);
-        $data = stream_get_contents($file);
-        flock($file, LOCK_UN);
-        fclose($file);
-
-        if (empty($data)) {
-            throw new Exception("Model file is empty");
+    public function testAnomalyDetection(array $sample): array
+    {
+        if (!$this->isModelTrained()) {
+            throw new \Exception("Model belum dilatih");
         }
 
-        $encoding = new Encoding($data);
-        $model = $this->serializer->deserialize($encoding);
+        $dataset = new Unlabeled([$sample]);
+        return [
+            'prediction' => $this->model->predict($dataset),
+            'score' => $this->model->score($dataset)
+        ];
+    }
 
-        if (!$model instanceof IsolationForest) {
-            throw new Exception('Invalid model type');
-        }
 
-        if (!$model->trained()) {
-            throw new Exception('Model is not trained');
-        }
-
-        $this->model = $model;
+    protected function loadModel()
+    {
+        try {
+            // Baca file dengan lock untuk hindari race condition
+            $file = fopen($this->modelPath, 'r');
+            flock($file, LOCK_SH);
+            $data = stream_get_contents($file);
+            flock($file, LOCK_UN);
+            fclose($file);
         
-    } catch (Exception $e) {
-        Log::error('Model loading failed: '.$e->getMessage());
-        $this->initNewModel();
-        throw $e;
+            if (empty($data)) {
+                throw new Exception("Model file is empty");
+            }
+        
+            $encoding = new Encoding($data);
+            $model = $this->serializer->deserialize($encoding);
+        
+            if (!$model instanceof IsolationForest) {
+                throw new Exception('Invalid model type');
+            }
+        
+            if (!$model->trained()) {
+                throw new Exception('Model is not trained');
+            }
+        
+            $this->model = $model;
+            
+        } catch (Exception $e) {
+            Log::error('Model loading failed: '.$e->getMessage());
+            $this->initNewModel();
+            throw $e;
+        }
     }
-}
     
     public function trainModel(array $trainingData)
     {
@@ -143,5 +140,4 @@ protected function loadModel()
         $dataset = new Unlabeled($samples);
         return $this->model->score($dataset);
     }
-    
 }

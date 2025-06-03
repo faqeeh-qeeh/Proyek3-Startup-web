@@ -62,7 +62,6 @@ class ClientDevice extends Model
         return $this->hasOne(DeviceClassification::class, 'device_id');
         // Tambahkan parameter kedua untuk menentukan nama kolom foreign key
     }
-    // ... bagian yang sudah ada
 
     // Method untuk memeriksa apakah perangkat industri
     public function isIndustrial()

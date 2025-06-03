@@ -212,7 +212,8 @@ Route::prefix('client')->group(function () {
                         
                 Route::get('/anomalies', [\App\Http\Controllers\Client\AnomalyController::class, 'showAnomalies'])
                     ->name('anomalies');
-
+                Route::get('/export-monitoring', [\App\Http\Controllers\Client\DeviceController::class, 'exportMonitoringData'])
+                    ->name('export-monitoring');
                     
             });
         });

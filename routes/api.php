@@ -91,7 +91,7 @@ use App\Http\Controllers\Client\ProductApiController;
 use App\Http\Controllers\Client\OrderApiController;
 use App\Http\Controllers\Client\PaymentApiController;
 use App\Http\Controllers\Client\DeviceApiController;
-
+use App\Http\Controllers\Client\AnomalyApiController;
 Route::get('/client/devices/{device}/recent-data', [AnomalyController::class, 'getRecentData'])
     ->middleware('auth:client');
 
@@ -116,5 +116,8 @@ Route::prefix('client')->group(function () {
         Route::get('/devices/{device}/monitoring-data', [DeviceApiController::class, 'getMonitoringData']);
         Route::get('/devices/{device}/relay-status', [DeviceApiController::class, 'getRelayStatus']);
         Route::post('/devices/{device}/control', [DeviceApiController::class, 'controlDevice']);
+        Route::get('/devices/{device}/anomalies', [AnomalyApiController::class, 'index']);
+        Route::post('/devices/{device}/detect-anomalies', [AnomalyApiController::class, 'detectAnomalies']);
+        Route::get('/devices/{device}/recent-anomalies', [AnomalyApiController::class, 'getRecentAnomalies']);
     });
 });

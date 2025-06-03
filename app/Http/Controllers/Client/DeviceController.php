@@ -8,8 +8,10 @@ use App\Models\DeviceMonitoring;
 use Illuminate\Http\Request;
 use App\Services\MqttService;
 use Illuminate\Support\Facades\Auth;
-
 use Carbon\Carbon;
+use App\Exports\DeviceMonitoringExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 class DeviceController extends Controller
 {
     public function __construct()
@@ -173,5 +175,20 @@ class DeviceController extends Controller
                 'timestamp' => $latestData->recorded_at ?? now()
             ]
         ]);
+    }
+    public function exportMonitoringData(ClientDevice $device)
+    {
+        if ($device->client_id !== auth('client')->id()) {
+            abort(403);
+        }
+    
+        // Pastikan device ada
+        if (!$device->exists) {
+            abort(404, 'Device not found');
+        }
+    
+        $filename = 'monitoring_data_' . Str::slug($device->device_name) . '_' . date('Ymd_His') . '.xlsx';
+        
+        return Excel::download(new DeviceMonitoringExport($device->id), $filename);
     }
 }

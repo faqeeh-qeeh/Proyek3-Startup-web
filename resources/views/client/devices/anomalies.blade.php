@@ -197,7 +197,7 @@
                                     @foreach($anomalies as $anomaly)
                                         <tr>
                                             <td>
-                                                {{ $anomaly->monitoring->recorded_at->format('d M Y H:i') }}
+                                                {{ $anomaly->monitoring->recorded_at->format('d M Y') }}
                                             </td>
                                             <td>
                                                 @php
@@ -247,7 +247,7 @@
                                             <td colspan="5">
                                                 <div class="p-3 bg-light rounded">
                                                     <h6>Detail Anomali:</h6>
-                                                    <p>{{ $anomaly->description }}</p>
+                                                    {{-- <p>{{ $anomaly->description }}</p> --}}
                                                     
                                                     <div class="row">
                                                         <div class="col-md-2">
@@ -261,6 +261,9 @@
                                                         </div>
                                                         <div class="col-md-2">
                                                             <strong>Energy:</strong> {{ $anomaly->monitoring->energy }} kWh
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <strong>frequency:</strong> {{ $anomaly->monitoring->frequency }} Hz
                                                         </div>
                                                         <div class="col-md-2">
                                                             <strong>PF:</strong> {{ $anomaly->monitoring->power_factor }}
