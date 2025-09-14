@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Carbon;
 class DeviceAnomaly extends Model
 {
     use HasFactory;
@@ -13,21 +13,27 @@ class DeviceAnomaly extends Model
     protected $fillable = [
         'device_id',
         'monitoring_id',
-        'model_id',
-        'score',
-        'type',
+        'anomaly_score', // Di database sudah anomaly_score
+        'anomaly_type',  // Di database sudah anomaly_type
+        'severity',
         'description',
         'is_confirmed',
-        'confirmed_at'
+        'detected_at'
     ];
 
     protected $casts = [
-        'score' => 'float',
+        'anomaly_score' => 'float',
         'is_confirmed' => 'boolean',
-        'confirmed_at' => 'datetime',
+        'detected_at' => 'datetime',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s'
     ];
+
+    // Tambahkan method untuk handle null detected_at
+    public function getDetectedAtAttribute($value)
+    {
+        return $value ?? $this->created_at;
+    }
 
     // Tipe-tipe anomali yang mungkin
     const TYPES = [
@@ -103,5 +109,12 @@ class DeviceAnomaly extends Model
             'is_confirmed' => true,
             'confirmed_at' => now()
         ]);
+    }
+    public function getFormattedDetectedAtAttribute()
+    {
+        if (is_string($this->detected_at)) {
+            $this->detected_at = Carbon::parse($this->detected_at);
+        }
+        return ($this->detected_at ?? $this->created_at)->format('d M Y H:i');
     }
 }

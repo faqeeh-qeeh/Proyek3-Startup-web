@@ -140,4 +140,24 @@ class AnomalyDetectionService
         $dataset = new Unlabeled($samples);
         return $this->model->score($dataset);
     }
+    
+    public function evaluateModel(array $testingData): array
+    {
+        if (!$this->model->trained()) {
+            throw new Exception("Model belum dilatih. Silakan jalankan training terlebih dahulu.");
+        }
+
+        $dataset = new Unlabeled($testingData);
+        $scores = $this->model->score($dataset);
+        $predictions = $this->model->predict($dataset);
+
+        return [
+            'scores' => $scores,
+            'predictions' => $predictions,
+            'average_score' => array_sum($scores) / count($scores),
+            'anomaly_count' => count(array_filter($predictions, function($pred) {
+                return $pred == 1;
+            }))
+        ];
+    }
 }

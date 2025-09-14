@@ -146,44 +146,6 @@ Route::prefix('client')->group(function () {
             Route::post('/{order}/retry', [\App\Http\Controllers\Client\PaymentController::class, 'retry'])->name('payments.retry');
 
         });
-        
-        // Midtrans Notification (harus bisa diakses tanpa auth)
-        // Route::post('/payments/notification', [\App\Http\Controllers\Client\PaymentController::class, 'handleNotification'])
-        //     ->withoutMiddleware(['auth:client'])
-        //     ->name('payments.notification');
-        
-        // Devices
-        // Route::resource('devices', \App\Http\Controllers\Client\DeviceController::class)->only(['index', 'show']);
-        // Route::post('/devices/{device}/control', [\App\Http\Controllers\Client\DeviceController::class, 'controlDevice'])
-        //     ->name('devices.control');
-            
-        // // Device Data API (jika menggunakan web route untuk API)
-        // Route::get('/devices/{device}/data', [\App\Http\Controllers\Api\DeviceDataController::class, 'getData'])
-        //     ->name('devices.data');
-
-        //     Route::get('/devices/{device}/monitoring', [\App\Http\Controllers\Client\DeviceController::class, 'getLatestData']);
-        //     Route::get('/devices/{device}/relay-status', [\App\Http\Controllers\Client\DeviceController::class, 'getRelayStatus']);
-
-
-        // Route::prefix('devices')->name('devices.')->group(function() {
-        //     // Resource routes
-        //     Route::resource('/', \App\Http\Controllers\Client\DeviceController::class)
-        //         ->only(['index', 'show'])
-        //         ->parameters(['' => 'device']); // Ubah parameter menjadi device
-
-        //     // Control routes
-        //     Route::post('/{device}/control', [\App\Http\Controllers\Client\DeviceController::class, 'controlDevice'])
-        //         ->name('control');
-
-        //     // Data routes
-        //     Route::prefix('/{device}')->group(function() {
-        //         Route::get('/monitoring', [\App\Http\Controllers\Client\DeviceController::class, 'getLatestData'])
-        //             ->name('monitoring');
-
-        //         Route::get('/relay-status', [\App\Http\Controllers\Client\DeviceController::class, 'getRelayStatus'])
-        //             ->name('relay-status');
-        //     });
-        // });
         Route::prefix('devices')->name('devices.')->group(function() {
             // Resource routes
             Route::resource('/', \App\Http\Controllers\Client\DeviceController::class)

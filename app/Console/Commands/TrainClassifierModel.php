@@ -91,4 +91,28 @@ class TrainClassifierModel extends Command
             $this->error('Training failed: '.$e->getMessage());
         }
     }
+    protected function calculatePowerVariance($deviceId)
+    {
+        // Jika device_id adalah dummy (0,1,2), return nilai variance dummy
+        if (in_array($deviceId, [0, 1, 2])) {
+            return $deviceId * 100 + 50; // Nilai dummy untuk variance
+        }
+
+        // Hitung variance power untuk device nyata
+        $powerValues = DeviceMonitoring::where('device_id', $deviceId)
+            ->whereNotNull('power')
+            ->pluck('power')
+            ->toArray();
+
+        if (count($powerValues) < 2) {
+            return 100; // Nilai default jika data tidak cukup
+        }
+
+        $mean = array_sum($powerValues) / count($powerValues);
+        $variance = array_sum(array_map(function($x) use ($mean) {
+            return pow($x - $mean, 2);
+        }, $powerValues)) / count($powerValues);
+
+        return $variance;
+    }
 }

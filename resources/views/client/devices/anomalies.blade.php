@@ -10,7 +10,7 @@
                 <i class="fas fa-exclamation-triangle me-3 fs-4 text-warning"></i>
                 <div>
                     <h4 class="mb-0">Deteksi Anomali</h4>
-                    <small class="opacity-75">{{ $device->device_name }}</small>
+                    <small class="text-muted">{{ $device->device_name }}</small>
                 </div>
             </div>
             <div>
@@ -29,7 +29,7 @@
         </div>
         
         <div class="card-body">
-            {{-- @if (session('success'))
+            @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="fas fa-check-circle me-2"></i>
                     {{ session('success') }}
@@ -43,85 +43,51 @@
                     {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            @endif --}}
-            @if (session('quality'))
-            <div class="alert quality-alert
-                @if(str_contains(session('quality'), 'sangat bagus')) alert-success
-                @elseif(str_contains(session('quality'), 'cukup bagus')) alert-info
-                @elseif(str_contains(session('quality'), 'sedang')) alert-warning
-                @else alert-danger
-                @endif
-                alert-dismissible fade show" role="alert">
-                <i class="fas 
-                    @if(str_contains(session('quality'), 'sangat bagus')) fa-check-circle
-                    @elseif(str_contains(session('quality'), 'cukup bagus')) fa-info-circle
-                    @elseif(str_contains(session('quality'), 'sedang')) fa-exclamation-circle
-                    @else fa-times-circle
-                    @endif
-                    me-2"></i>
-                {{ session('quality') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            @endif
 
-                @if(session('quality_data'))
-                    <hr>
-                    <div class="row mt-2">
+            <!-- Data Quality Summary -->
+            @if (session('quality_data'))
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <i class="fas fa-chart-line me-2"></i> Ringkasan Kualitas Data (30 Hari Terakhir)
+                </div>
+                <div class="card-body">
+                    <div class="row">
                         <div class="col-md-4">
-                            <small class="d-block"><i class="fas fa-check text-success me-1"></i> Normal: {{ session('quality_data.stats.good') }}</small>
+                            <div class="card bg-success text-white mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ session('quality_data.stats.good') }}</h5>
+                                    <p class="card-text">Data Normal</p>
+                                    <small>(CV ≤ 0.3)</small>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <small class="d-block"><i class="fas fa-exclamation-triangle text-warning me-1"></i> Sedang: {{ session('quality_data.stats.fair') }}</small>
+                            <div class="card bg-warning text-dark mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ session('quality_data.stats.fair') }}</h5>
+                                    <p class="card-text">Data Sedang</p>
+                                    <small>(0.3 < CV ≤ 0.5)</small>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <small class="d-block"><i class="fas fa-times text-danger me-1"></i> Buruk: {{ session('quality_data.stats.poor') }}</small>
+                            <div class="card bg-danger text-white mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ session('quality_data.stats.poor') }}</h5>
+                                    <p class="card-text">Data Buruk</p>
+                                    <small>(CV > 0.5)</small>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                @endif
-            </div>
-        @endif
-        {{-- @if (session('recent_quality'))
-<div class="card mb-4">
-    <div class="card-header bg-info text-white">
-        <i class="fas fa-bolt me-2"></i> Kondisi Real-time (5 Menit Terakhir)
-    </div>
-    <div class="card-body">
-        <div class="alert 
-            @if(str_contains(session('recent_quality'), 'sangat bagus')) alert-success
-            @elseif(str_contains(session('recent_quality'), 'cukup bagus')) alert-info
-            @elseif(str_contains(session('recent_quality'), 'sedang')) alert-warning
-            @else alert-danger
-            @endif">
-            {{ session('recent_quality') }}
-        </div>
-        
-        @if(session('recent_quality_data'))
-        <div class="row">
-            <div class="col-md-6">
-                <canvas id="recentChart" height="150"></canvas>
-            </div>
-            <div class="col-md-6">
-                <div class="progress mb-2" style="height: 30px;">
-                    <div class="progress-bar bg-success" 
-                         style="width: {{ session('recent_quality_data.stats.good') / array_sum(session('recent_quality_data.stats')) * 100 }}%">
-                        Normal
-                    </div>
-                    <div class="progress-bar bg-warning" 
-                         style="width: {{ session('recent_quality_data.stats.fair') / array_sum(session('recent_quality_data.stats')) * 100 }}%">
-                        Sedang
-                    </div>
-                    <div class="progress-bar bg-danger" 
-                         style="width: {{ session('recent_quality_data.stats.poor') / array_sum(session('recent_quality_data.stats')) * 100 }}%">
-                        Buruk
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Sistem menggunakan analisis 6 parameter: Voltage, Current, Power, Energy, Frequency, dan Power Factor.
                     </div>
                 </div>
-                <small class="text-muted">
-                    Update terakhir: {{ now()->format('H:i:s') }}
-                </small>
             </div>
-        </div>
-        @endif
-    </div>
-</div>
-@endif --}}
+            @endif
             
             <!-- Device Classification Card -->
             <div class="card mb-4">
@@ -151,6 +117,20 @@
                                     Keyakinan: {{ number_format($device->classification->confidence * 100, 1) }}% |
                                     Terakhir diperbarui: {{ $device->classification->updated_at->diffForHumans() }}
                                 </small>
+                                <div class="mt-2">
+                                    <small><strong>Fitur Klasifikasi:</strong></small>
+                                    <div class="row mt-1">
+                                        <div class="col-md-4">
+                                            <small>Daya Rata-rata: {{ number_format($device->classification->features[0] ?? 0, 2) }} W</small>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <small>Daya Maks: {{ number_format($device->classification->features[1] ?? 0, 2) }} W</small>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <small>Jam Penggunaan: {{ number_format($device->classification->features[2] ?? 0, 1) }} jam</small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @else
@@ -169,9 +149,14 @@
                         <i class="fas fa-exclamation-circle me-2"></i>
                         <span>Daftar Anomali Terdeteksi</span>
                     </div>
-                    <small class="text-muted">
-                        Total: {{ $anomalies->total() }} anomali
-                    </small>
+                    <div>
+                        <small class="text-muted me-3">
+                            Threshold: 0.72 (Li et al. 2022)
+                        </small>
+                        <small class="text-muted">
+                            Total: {{ $anomalies->total() }} anomali
+                        </small>
+                    </div>
                 </div>
                 
                 <div class="card-body">
@@ -179,7 +164,7 @@
                         <div class="text-center py-5">
                             <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
                             <h5>Tidak ada anomali yang terdeteksi</h5>
-                            <p class="text-muted">Sistem belum menemukan anomali pada perangkat ini.</p>
+                            <p class="text-muted">Sistem belum menemukan anomali pada perangkat ini berdasarkan analisis 6 parameter.</p>
                         </div>
                     @else
                         <div class="table-responsive">
@@ -189,40 +174,46 @@
                                         <th>Waktu</th>
                                         <th>Tipe</th>
                                         <th>Skor</th>
+                                        <th>Keparahan</th>
                                         <th>Detail</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($anomalies as $anomaly)
-                                        <tr>
+                                        <tr class="{{ $anomaly->is_confirmed ? 'confirmed-anomaly' : 'anomaly-card' }}">
                                             <td>
-                                                {{ $anomaly->monitoring->recorded_at->format('d M Y') }}
+                                                <small>{{ ($anomaly->detected_at ?? $anomaly->created_at) }}</small>
                                             </td>
                                             <td>
-                                                @php
-                                                    $badgeClass = [
-                                                        'voltage_anomaly' => 'bg-danger',
-                                                        'current_anomaly' => 'bg-warning',
-                                                        'power_factor_anomaly' => 'bg-info',
-                                                        'general_anomaly' => 'bg-secondary'
-                                                    ][$anomaly->type] ?? 'bg-primary';
-                                                @endphp
-                                                <span class="badge {{ $badgeClass }}">
-                                                    {{ str_replace('_', ' ', $anomaly->type) }}
+                                                <span class="badge bg-{{ $anomaly->severity == 'high' ? 'danger' : 'warning' }}">
+                                                    {{ $anomaly->anomaly_type ?? 'general_anomaly' }}
                                                 </span>
                                             </td>
                                             <td>
                                                 <div class="progress" style="height: 20px;">
-                                                    <div class="progress-bar bg-{{ $anomaly->score > 0.9 ? 'danger' : 'warning' }}" 
+                                                    <div class="progress-bar bg-{{ $anomaly->anomaly_score > 0.9 ? 'danger' : ($anomaly->anomaly_score > 0.8 ? 'warning' : 'info') }}" 
                                                          role="progressbar" 
-                                                         style="width: {{ $anomaly->score * 100 }}%" 
-                                                         aria-valuenow="{{ $anomaly->score * 100 }}" 
+                                                         style="width: {{ ($anomaly->anomaly_score ?? 0) * 100 }}%" 
+                                                         aria-valuenow="{{ $anomaly->anomaly_score ?? 0 }}" 
                                                          aria-valuemin="0" 
                                                          aria-valuemax="100">
-                                                        {{ number_format($anomaly->score, 2) }}
+                                                        {{ number_format($anomaly->anomaly_score ?? 0, 2) }}
                                                     </div>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                @php
+                                                    $severityClass = [
+                                                        'critical' => 'danger',
+                                                        'high' => 'warning',
+                                                        'medium' => 'info',
+                                                        'low' => 'secondary'
+                                                    ][$anomaly->severity] ?? 'secondary';
+                                                @endphp
+                                                <span class="badge bg-{{ $severityClass }}">
+                                                    {{ strtoupper($anomaly->severity) }}
+                                                </span>
                                             </td>
                                             <td>
                                                 <button class="btn btn-sm btn-outline-primary" 
@@ -244,29 +235,65 @@
                                             </td>
                                         </tr>
                                         <tr class="collapse" id="detail-{{ $anomaly->id }}">
-                                            <td colspan="5">
+                                            <td colspan="6">
                                                 <div class="p-3 bg-light rounded">
                                                     <h6>Detail Anomali:</h6>
-                                                    {{-- <p>{{ $anomaly->description }}</p> --}}
+                                                    <p>{{ $anomaly->description }}</p>
                                                     
-                                                    <div class="row">
+                                                    <div class="row mt-3">
                                                         <div class="col-md-2">
-                                                            <strong>Voltage:</strong> {{ $anomaly->monitoring->voltage }} V
+                                                            <div class="card">
+                                                                <div class="card-body text-center">
+                                                                    <h6 class="card-title">Voltage</h6>
+                                                                    <p class="card-text {{ $anomaly->monitoring->voltage < 200 || $anomaly->monitoring->voltage > 250 ? 'text-danger' : 'text-success' }}">
+                                                                        {{ $anomaly->monitoring->voltage }} V
+                                                                    </p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <strong>Current:</strong> {{ $anomaly->monitoring->current }} A
+                                                            <div class="card">
+                                                                <div class="card-body text-center">
+                                                                    <h6 class="card-title">Current</h6>
+                                                                    <p class="card-text">{{ $anomaly->monitoring->current }} A</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <strong>Power:</strong> {{ $anomaly->monitoring->power }} W
+                                                            <div class="card">
+                                                                <div class="card-body text-center">
+                                                                    <h6 class="card-title">Power</h6>
+                                                                    <p class="card-text">{{ $anomaly->monitoring->power }} W</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <strong>Energy:</strong> {{ $anomaly->monitoring->energy }} kWh
+                                                            <div class="card">
+                                                                <div class="card-body text-center">
+                                                                    <h6 class="card-title">Energy</h6>
+                                                                    <p class="card-text">{{ $anomaly->monitoring->energy }} kWh</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <strong>frequency:</strong> {{ $anomaly->monitoring->frequency }} Hz
+                                                            <div class="card">
+                                                                <div class="card-body text-center">
+                                                                    <h6 class="card-title">Frequency</h6>
+                                                                    <p class="card-text {{ abs($anomaly->monitoring->frequency - 50) > 1 ? 'text-danger' : 'text-success' }}">
+                                                                        {{ $anomaly->monitoring->frequency }} Hz
+                                                                    </p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <strong>PF:</strong> {{ $anomaly->monitoring->power_factor }}
+                                                            <div class="card">
+                                                                <div class="card-body text-center">
+                                                                    <h6 class="card-title">Power Factor</h6>
+                                                                    <p class="card-text {{ $anomaly->monitoring->power_factor < 0.7 ? 'text-danger' : 'text-success' }}">
+                                                                        {{ $anomaly->monitoring->power_factor }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -277,8 +304,8 @@
                             </table>
                         </div>
                         
-                        <div class="mt-3">
-                            {{ $anomalies->links() }}
+                        <div class="mt-3 d-flex justify-content-center">
+                            {{ $anomalies->onEachSide(1)->links('pagination::bootstrap-5') }}
                         </div>
                     @endif
                 </div>
@@ -291,34 +318,70 @@
 @push('styles')
 <style>
     .anomaly-card {
-        border-left: 4px solid #dc3545;
+        border-left: 4px solid var(--danger-color);
     }
     .confirmed-anomaly {
-        border-left: 4px solid #28a745;
+        border-left: 4px solid var(--success-color);
     }
     .progress {
-        background-color: #f8f9fa;
+        background-color: var(--light-color);
+    }
+    .device-header {
+        background-color: var(--light-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+    .card-header i {
+        width: 24px;
+        text-align: center;
+    }
+    
+    /* Dark mode adjustments */
+    [data-bs-theme="dark"] .bg-light {
+        background-color: var(--dark-color) !important;
+    }
+    [data-bs-theme="dark"] .text-muted {
+        color: var(--text-muted) !important;
+    }
+    [data-bs-theme="dark"] .table {
+        --bs-table-bg: var(--card-bg);
+        --bs-table-striped-bg: rgba(78, 115, 223, 0.05);
+        --bs-table-hover-bg: rgba(78, 115, 223, 0.1);
+    }
+    
+    /* Pagination styling */
+    .pagination {
+        --bs-pagination-color: var(--text-color);
+        --bs-pagination-bg: var(--card-bg);
+        --bs-pagination-border-color: var(--border-color);
+        --bs-pagination-hover-color: var(--primary-color);
+        --bs-pagination-hover-bg: var(--light-color);
+        --bs-pagination-hover-border-color: var(--border-color);
+        --bs-pagination-active-bg: var(--primary-color);
+        --bs-pagination-active-border-color: var(--primary-color);
+        --bs-pagination-disabled-color: var(--text-muted);
+        --bs-pagination-disabled-bg: var(--card-bg);
+        --bs-pagination-disabled-border-color: var(--border-color);
+    }
+    [data-bs-theme="dark"] .table {
+        --bs-table-bg: var(--card-bg);
+        --bs-table-color: var(--text-color);
+        --bs-table-border-color: var(--border-color);
+    }
+
+    [data-bs-theme="dark"] .table-responsive {
+        background-color: var(--card-bg);
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+    [data-bs-theme="dark"] .card-body {
+        background-color: var(--card-bg);
+    }
+
+    [data-bs-theme="dark"] .pagination {
+        --bs-pagination-bg: var(--card-bg);
+        --bs-pagination-color: var(--text-color);
+        --bs-pagination-border-color: var(--border-color);
     }
 </style>
 @endpush
-
-{{-- @push('scripts')
-<script>
-// Di bagian @push('scripts')
-setInterval(function() {
-    fetch(`/client/devices/{{ $device->id }}/recent-data`)
-        .then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                // Update progress bar
-                document.querySelector('#recentProgress .bg-success').style.width = data.quality.good + '%';
-                document.querySelector('#recentProgress .bg-warning').style.width = data.quality.fair + '%';
-                document.querySelector('#recentProgress .bg-danger').style.width = data.quality.poor + '%';
-                
-                // Update timestamp
-                document.querySelector('#lastUpdate').textContent = 'Update: ' + new Date().toLocaleTimeString();
-            }
-        });
-}, 30000); // Update setiap 30 detik
-</script>
-@endpush --}}

@@ -80,6 +80,4 @@ class ClientDevice extends Model
     {
         return optional($this->classification)->category ?? 'unknown';
     }
-    
-
 }
